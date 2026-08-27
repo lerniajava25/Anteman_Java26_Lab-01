@@ -1,0 +1,237 @@
+Index: src/main/java/elpriser/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/elpriser/Main.java b/src/main/java/elpriser/Main.java
+new file mode 100644
+--- /dev/null	(date 1787773249588)
++++ b/src/main/java/elpriser/Main.java	(date 1787773249588)
+@@ -0,0 +1,156 @@
++package elpriser;
++
++import elpriser.model.HourlyData;
++import elpriser.services.ApiService;
++
++import java.time.LocalDate;
++import java.time.LocalTime;
++import java.time.format.DateTimeFormatter;
++import java.util.Arrays;
++import java.util.Comparator;
++
++public class Main {
++    private static String currentZone = "SE2";
++    private static final LocalDate today = LocalDate.now();
++    private static final LocalTime currentTime = LocalTime.now();
++    private static final DateTimeFormatter clockFormatter = DateTimeFormatter.ofPattern("HH:mm");
++    private static HourlyData[] currentPrices = null;
++
++    static void main() {
++
++        boolean isRunning = true;
++
++        loadZonePrices(currentZone);
++
++        while (isRunning) {
++            IO.println(today + " @ " + currentTime.format(clockFormatter));
++            IO.println("Nuvarande valt elområde: " + currentZone);
++            showMenu();
++            String userChoice = IO.readln("Välj ett alternativ: ").trim();
++
++            switch (userChoice.toLowerCase()) {
++                case "1" -> zoneChoice(); //Välj elområde
++                case "2" -> {
++                    if (checkDataIsLoaded()) viewMinMaxAv(currentPrices);
++                }
++                case "3" -> {
++                    if (checkDataIsLoaded()) sortPrices(currentPrices);
++                }
++                case "4" -> {
++                    if (checkDataIsLoaded()) bestChargePeriod(currentPrices);
++                    }
++                case "e" -> isRunning = false;
++                default -> IO.println("Felaktigt val! Vänligen välj igen...");
++            }
++        }
++    }
++    private static void showMenu() {
++        IO.println("*==========================*");
++        IO.println("| Elpriser - Analysverktyg |");
++        IO.println("*==========================*" + "\n");
++        IO.println("1. Välj elområde (SE1, SE2, SE3, SE4)");
++        IO.println("2. Min, Max och Medelpris");
++        IO.println("3. Sortera priser (lägst till högst)");
++        IO.println("4. Bästa laddningstid (4h sammanhängande)");
++        IO.println("e. Avsluta");
++    }
++
++    private static void loadZonePrices(String chosenZone) {
++        int timeNow = currentTime.getHour();
++        try {
++            currentPrices = ApiService.getHourlyData(today, currentZone);
++        } catch (Exception e) {
++            IO.println("Kunde inte hämta priser. Statuskod: " + e.getMessage());
++        }
++
++
++    }
++
++    private static void zoneChoice() {
++        IO.println("Nuvarande elområde: " + currentZone);
++        String chosenZone = IO.readln("Välj elområde (SE1, SE2, SE3, SE4): ").trim().toUpperCase();
++        if (chosenZone.matches("SE1|SE2|SE3|SE4")) {
++            IO.println("Valt elområde: " + chosenZone);
++            currentZone = chosenZone;
++            loadZonePrices(currentZone);
++
++        } else {
++            IO.println("Felaktigt format! Måste anges som SE1, SE2, SE3 eller SE4...");
++            zoneChoice();
++        }
++    }
++
++    private static void viewMinMaxAv(HourlyData[] prices) {
++        if (prices == null || prices.length == 0) return;
++
++        HourlyData min = prices[0];
++        HourlyData max = prices[0];
++        double total = 0;
++
++        for (HourlyData h : prices) {
++            if (h.getSekPerKwh() < min.getSekPerKwh()) min = h;
++            if (h.getSekPerKwh() > max.getSekPerKwh()) max = h;
++            total += h.getSekPerKwh();
++        }
++
++        double avg = total / prices.length;
++
++        IO.println("\n" + "--- Prisanalys för " + today + " ---");
++        IO.println(String.format("Lägsta pris: %s (%.2f kr/kWh)", min.getHourFormatted(),  min.getSekPerKwh()));
++        IO.println(String.format("Högsta pris: %s (%.2f kr/kWh)", max.getHourFormatted(),  max.getSekPerKwh()));
++        IO.println(String.format("Genomsnittspris: %.2f kr/kWhn\n\n", avg));
++    }
++
++    private static void sortPrices(HourlyData[] prices) {
++        if (prices == null || prices.length == 0) return;
++        HourlyData[] sortedPrices = prices.clone();
++        Arrays.sort(sortedPrices, Comparator.comparingDouble(HourlyData::getSekPerKwh));
++
++        IO.println("\n" + "--- Priser sorterade från lägst till högst ---");
++        for (HourlyData h : sortedPrices) {
++            IO.println(h.getSekPerKwh() + " kr/kWh - kl. " + h.getHourFormatted());
++        }
++        IO.println("*=----------**----------=*\n\n");
++    }
++
++    private static void bestChargePeriod(HourlyData[] prices) {
++        int windowSize = 16;
++        if (prices == null || prices.length < windowSize) {
++            IO.println("För lite data för att beräkna laddning i 4 timmar");
++            return;
++        }
++
++        double currentWindowSum = 0;
++        for (int i = 0; i < windowSize; i++) {
++            currentWindowSum += prices[i].getSekPerKwh();
++        }
++
++        double minSum = currentWindowSum;
++        int bestStartIndex = 0;
++
++        for (int i = windowSize; i < prices.length; i++) {
++            currentWindowSum += prices[i].getSekPerKwh() - prices[i - windowSize].getSekPerKwh();
++            if (currentWindowSum < minSum) {
++                minSum = currentWindowSum;
++                bestStartIndex = i - windowSize + 1;
++            }
++        }
++
++        double avgWindowCost = minSum / windowSize;
++        HourlyData startindex = prices[bestStartIndex];
++
++        IO.println("\n" +
++                "--- Bästa laddningstid, 4 timmar sammanhängande ---");
++        IO.println(String.format("Starttid: %s", startindex.getHourFormatted()));
++        IO.println(String.format("Medelpris: %.2f kr/kWh", avgWindowCost));
++        IO.println(String.format("Totalpris 4 timmar: %.2f kr vid förbrukning 1 kW/h \n\n", (minSum * 0.25)));
++    }
++
++    private static boolean checkDataIsLoaded() {
++        if (currentPrices == null || currentPrices.length == 0) {
++            IO.println("Ingen data tillgänglig för nuvarande elområde.");
++            return false;
++        }
++        return true;
++    }
++}
+Index: src/main/java/elpriser/services/ApiService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/elpriser/services/ApiService.java b/src/main/java/elpriser/services/ApiService.java
+new file mode 100644
+--- /dev/null	(date 1787756672052)
++++ b/src/main/java/elpriser/services/ApiService.java	(date 1787756672052)
+@@ -0,0 +1,61 @@
++package elpriser.services;
++
++import com.fasterxml.jackson.core.type.TypeReference;
++import com.fasterxml.jackson.databind.ObjectMapper;
++import elpriser.model.HourlyData;
++
++import java.io.IOException;
++import java.net.URI;
++import java.net.http.HttpClient;
++import java.net.http.HttpRequest;
++import java.net.http.HttpResponse;
++import java.nio.file.Files;
++import java.nio.file.Path;
++import java.time.LocalDate;
++
++public class ApiService {
++    private static final HttpClient httpClient = HttpClient.newHttpClient();
++    private static final ObjectMapper objectMapper = new ObjectMapper();
++
++    private static final String CACHE_DIR = "cache";
++
++    private ApiService() {}
++
++    public static HourlyData[] getHourlyData(LocalDate date, String zone) throws IOException, InterruptedException {
++        String year = String.valueOf(date.getYear());
++        String month = String.format("%02d", date.getMonthValue());
++        String day = String.format("%02d", date.getDayOfMonth());
++
++        Path pathToCache = Path.of(CACHE_DIR, String.format("%s_%s-%s_%s.json",year,month,day,zone));
++
++        if (Files.exists(pathToCache)) {
++            String hourlyRatesJson = Files.readString(pathToCache);
++            return objectMapper.readValue(hourlyRatesJson, new TypeReference<HourlyData[]>() {});
++        }
++
++        String url = String.format("https://www.elprisetjustnu.se/api/v1/prices/%s/%s-%s_%s.json", year, month, day, zone);
++        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
++        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
++
++        if (response.statusCode() != 200) {
++            throw new IOException("Kunde inte hämta data från API. Statuskod: " + response.statusCode());
++
++        }
++
++        String responseBody = response.body();
++        saveToCache(pathToCache, responseBody);
++        return objectMapper.readValue(responseBody, new TypeReference<HourlyData[]>() {});
++    }
++
++    private static void saveToCache(Path path, String content) {
++        try {
++            if (path.getParent() != null && !Files.exists(path.getParent())) {
++                Files.createDirectories(path.getParent());
++            }
++            Files.writeString(path, content);
++            IO.println("Data sparat till lokal fil: " + path);
++        } catch (IOException e) {
++            IO.println("[Varning!] Kunde inte sparat till lokal fil: " + e.getMessage());
++        }
++    }
++}
