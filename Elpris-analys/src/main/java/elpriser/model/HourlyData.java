@@ -6,10 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HourlyData {
 
-    @JsonProperty("SEK_per_kwh")
+    @JsonProperty("SEK_per_kWh")
     private double sekPerKwh;
 
-    @JsonProperty("EUR_per_kwh")
+    @JsonProperty("EUR_per_kWh")
     private double eurPerKwh;
 
     @JsonProperty("EXR")
@@ -19,7 +19,7 @@ public class HourlyData {
     private String timeStart;
 
     @JsonProperty("time_end")
-    private double timeEnd;
+    private String timeEnd;
 
 
     public HourlyData() {
@@ -29,20 +29,18 @@ public class HourlyData {
     private double hourlyRateInOren() {
         return sekPerKwh * 100.0;
     }
-
     public double getSekPerKwh() {
         return sekPerKwh;
     }
-
     public String getTimeStart() {
         return timeStart;
     }
-    public double getTimeEnd() {
+    public String getTimeEnd() {
         return timeEnd;
     }
 
-    private String getHourFormatted() {
-        if (timeStart  != null && timeStart.length() >= 16) {
+    public String getHourFormatted() {
+        if (timeStart != null && timeStart.length() >= 16) {
             return timeStart.substring(11, 16);
         }
         return timeStart;
