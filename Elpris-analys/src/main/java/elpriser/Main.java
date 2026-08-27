@@ -12,7 +12,6 @@ import java.util.Comparator;
 public class Main {
     private static String currentZone = "SE2";
     private static final LocalDate today = LocalDate.now();
-    private static final LocalTime currentTime = LocalTime.now();
     private static final DateTimeFormatter clockFormatter = DateTimeFormatter.ofPattern("HH:mm");
     private static HourlyData[] currentPrices = null;
 
@@ -23,7 +22,7 @@ public class Main {
         loadZonePrices(currentZone);
 
         while (isRunning) {
-            IO.println(today + " @ " + currentTime.format(clockFormatter));
+            IO.println(today + " @ " + LocalTime.now().format(clockFormatter));
             IO.println("Nuvarande valt elområde: " + currentZone);
             showMenu();
             String userChoice = IO.readln("Välj ett alternativ: ").trim();
@@ -67,15 +66,16 @@ public class Main {
 
     private static void zoneChoice() {
         IO.println("Nuvarande elområde: " + currentZone);
-        String chosenZone = IO.readln("Välj elområde (SE1, SE2, SE3, SE4): ").trim().toUpperCase();
-        if (chosenZone.matches("SE1|SE2|SE3|SE4")) {
-            IO.println("Valt elområde: " + chosenZone);
-            currentZone = chosenZone;
-            loadZonePrices(currentZone);
-        } else {
-            IO.println("Felaktigt format! Måste anges som SE1, SE2, SE3 eller SE4...");
-            zoneChoice();
-        }
+        String chosenZone;
+        do {
+            chosenZone = IO.readln("Välj elområde (SE1, SE2, SE3, SE4): ").trim().toUpperCase();
+            if (!chosenZone.matches("SE1|SE2|SE3|SE4")) {
+                IO.println("Felaktigt format! Måste anges som SE1, SE2, SE3 eller SE4...");
+            }
+        } while (!chosenZone.matches("SE1|SE2|SE3|SE4"));
+        IO.println("Valt elområde: " + chosenZone);
+        currentZone = chosenZone;
+        loadZonePrices(currentZone);
     }
 
     private static void viewMinMaxAv(HourlyData[] prices) {
