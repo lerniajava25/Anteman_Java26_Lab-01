@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60dcf14b-267b-4263-8569-351fe77932a1" name="Changes" comment="Fixed property of time_end to String instead of double" />
+    <list default="true" id="60dcf14b-267b-4263-8569-351fe77932a1" name="Changes" comment="Fixed property of time_end to String instead of double">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/elpriser/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elpriser/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/elpriser/model/HourlyData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elpriser/model/QuarterlyData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/elpriser/services/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elpriser/services/ApiService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="Menu" />
+        <entry key="$PROJECT_DIR$/.." value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -46,61 +51,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0000437633681816" />
-      <entry key="MS500" value="1.1542140556268392" />
-      <entry key="S2" value="2.4427193429617953" />
-      <entry key="S5" value="4.893923338765347" />
-      <entry key="S10" value="7.682102604979023" />
-      <entry key="S30" value="11.993131880173486" />
-      <entry key="S60" value="13.765319964172297" />
-      <entry key="M2" value="14.81638880525421" />
-      <entry key="M5" value="15.509408372024579" />
-      <entry key="M10" value="15.751735353320807" />
-      <entry key="M15" value="15.833849292196799" />
-      <entry key="M30" value="15.954874222235373" />
-      <entry key="H1" value="17.98739715427165" />
-      <entry key="H2" value="35.37687687602165" />
-      <entry key="H4" value="92.90161417878808" />
-      <entry key="D1" value="356.5012314566942" />
-      <entry key="W1" value="476.50494435699824" />
+      <entry key="MS100" value="1.4864433590614952" />
+      <entry key="MS500" value="4.445037973784067" />
+      <entry key="S2" value="10.635115633380146" />
+      <entry key="S5" value="15.094591828458254" />
+      <entry key="S10" value="17.580656047714193" />
+      <entry key="S30" value="19.744213715098" />
+      <entry key="S60" value="20.6002299751327" />
+      <entry key="M2" value="22.057697143794396" />
+      <entry key="M5" value="25.889452361095724" />
+      <entry key="M10" value="30.454761736712253" />
+      <entry key="M15" value="33.528732718914505" />
+      <entry key="M30" value="41.35641405731419" />
+      <entry key="H1" value="61.638896289427834" />
+      <entry key="H2" value="100.13406105948994" />
+      <entry key="H4" value="170.03994536368845" />
+      <entry key="D1" value="472.32627325288223" />
+      <entry key="W1" value="619.3453345917914" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="1.2688561671483014E-90" />
-      <entry key="MS500" value="1.0487753684893648E-18" />
-      <entry key="S2" value="3.2001520952423256E-5" />
-      <entry key="S5" value="0.01592458956885599" />
-      <entry key="S10" value="0.12619266844336077" />
-      <entry key="S30" value="0.5015851936025181" />
-      <entry key="S60" value="0.7082267953152563" />
-      <entry key="M2" value="0.8415621161359729" />
-      <entry key="M5" value="0.9333283779470075" />
-      <entry key="M10" value="0.9660892601480411" />
-      <entry key="M15" value="0.9772972046113939" />
-      <entry key="M30" value="1.0242168564937442" />
-      <entry key="H1" value="2.4558126032209016" />
-      <entry key="H2" value="12.306172861403788" />
-      <entry key="H4" value="38.90189431658113" />
-      <entry key="D1" value="145.2399158007339" />
-      <entry key="W1" value="192.38886668561943" />
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="1.3678593956990123E-168" />
+      <entry key="S2" value="1.0814597601215242E-42" />
+      <entry key="S5" value="1.6353252625447934E-17" />
+      <entry key="S10" value="4.0439223572725245E-9" />
+      <entry key="S30" value="0.001622840702409984" />
+      <entry key="S60" value="0.047645327460513774" />
+      <entry key="M2" value="0.33992994824609307" />
+      <entry key="M5" value="1.8663024822081717" />
+      <entry key="M10" value="4.333786351375793" />
+      <entry key="M15" value="5.9749830939628215" />
+      <entry key="M30" value="8.422233704554333" />
+      <entry key="H1" value="10.427041751847234" />
+      <entry key="H2" value="15.996657039811465" />
+      <entry key="H4" value="36.35955781144873" />
+      <entry key="D1" value="146.73505575043464" />
+      <entry key="W1" value="202.34178864043295" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.9794631603180146" />
-      <entry key="MS500" value="1.149422689889145" />
-      <entry key="S2" value="2.4400360045396043" />
-      <entry key="S5" value="4.893396516108681" />
-      <entry key="S10" value="7.722707602001913" />
-      <entry key="S30" value="12.341284753346576" />
-      <entry key="S60" value="14.355665791691596" />
-      <entry key="M2" value="15.584801445606793" />
-      <entry key="M5" value="16.40941623662731" />
-      <entry key="M10" value="16.70042570997316" />
-      <entry key="M15" value="16.79937803595324" />
-      <entry key="M30" value="16.97302924932921" />
-      <entry key="H1" value="20.43803967873482" />
-      <entry key="H2" value="47.67158605361174" />
-      <entry key="H4" value="131.78378454798136" />
-      <entry key="D1" value="501.7280295870661" />
-      <entry key="W1" value="668.8913239108472" />
+      <entry key="MS100" value="1.4580118270022409" />
+      <entry key="MS500" value="4.427105786459082" />
+      <entry key="S2" value="10.624010642438662" />
+      <entry key="S5" value="15.088281785253916" />
+      <entry key="S10" value="17.576988155518002" />
+      <entry key="S30" value="19.743905831190432" />
+      <entry key="S60" value="20.640541535009824" />
+      <entry key="M2" value="22.375838265724227" />
+      <entry key="M5" value="27.71855585563881" />
+      <entry key="M10" value="34.75165534785283" />
+      <entry key="M15" value="39.47160351993347" />
+      <entry key="M30" value="49.75707345314612" />
+      <entry key="H1" value="72.05259926519976" />
+      <entry key="H2" value="116.1192690155248" />
+      <entry key="H4" value="206.3833617132808" />
+      <entry key="D1" value="619.0485441738884" />
+      <entry key="W1" value="821.6845750434474" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -127,7 +132,7 @@
     "SONARLINT_PRECOMMIT_ANALYSIS": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Refactoring",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/anders/Programmering/anteman_Java26_Lab-01",
@@ -139,7 +144,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "onboarding.tips.debug.path": "/home/anders/Programmering/anteman_Java26_Lab-01/Elpris-analys/src/main/java/Elpriser/Main.java",
-    "settings.editor.selected.configurable": "Errors",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "to.speed.mode.migration.done": "true"
   }
 }]]></component>

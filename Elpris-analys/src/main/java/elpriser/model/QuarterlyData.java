@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class HourlyData {
+public class QuarterlyData {
 
     @JsonProperty("SEK_per_kWh")
     private double sekPerKwh;
@@ -22,7 +22,7 @@ public class HourlyData {
     private String timeEnd;
 
 
-    public HourlyData() {
+    public QuarterlyData() {
         // Konstruktor som krävs för Jackson
     }
 
