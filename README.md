@@ -19,7 +19,7 @@ Cachningsfunktionaliteten kontrollerar om en JSON-fil för det valda datumet och
 ### Källor för Disk-I/O:
 1. **Dokumentation för `java.nio.file.Files` (Oracle Java Docs)**
    - *Tillförlitlighet:* Mycket hög. Detta är den officiella API-dokumentationen från skaparna av språket.
-2. **Baeldung (baeldung.com/java-nio-file)**
+2. **Baeldung (baeldung.com)**
    - *Tillförlitlighet:* Hög. En etablerad och granskad community-källa för moderna Java-mönster som ofta uppdateras för nya Java-versioner.
 
 ## Reflektion: Java vs Andra språk
