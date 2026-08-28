@@ -57,6 +57,7 @@ public class Main {
         try {
             currentPrices = ApiService.getQuarterlyData(today, zoneToLoad);
         } catch (Exception e) {
+            currentPrices = null;
             IO.println("Kunde inte hämta priser. Statuskod: " + e.getMessage());
         }
 
