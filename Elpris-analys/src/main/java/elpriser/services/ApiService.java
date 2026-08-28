@@ -46,7 +46,7 @@ public class ApiService {
 
         try {
             String hourlyRatesJson = Files.readString(pathToCache);
-            return objectMapper.readValue(hourlyRatesJson, new TypeReference<QuarterlyData[]>() {});
+            return objectMapper.readValue(hourlyRatesJson, new TypeReference<>() {});
         } catch (IOException e) {
             // Logs that an error has occurred with reading or parsing the file and returns null.
             System.err.println("Kunde inte läsa cache-fil " + pathToCache + ": " + e.getMessage());
@@ -69,7 +69,7 @@ public class ApiService {
 
         String responseBody = response.body();
         saveToCache(pathToCache, responseBody);
-        return objectMapper.readValue(responseBody, new TypeReference<QuarterlyData[]>() {});
+        return objectMapper.readValue(responseBody, new TypeReference<>() {});
     }
 
     private static void saveToCache(Path path, String content) {

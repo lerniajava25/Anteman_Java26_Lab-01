@@ -53,9 +53,9 @@ public class Main {
         IO.println("e. Avsluta");
     }
 
-    private static void loadZonePrices(String chosenZone) {
+    private static void loadZonePrices(String zoneToLoad) {
         try {
-            currentPrices = ApiService.getHourlyData(today, currentZone);
+            currentPrices = ApiService.getHourlyData(today, zoneToLoad);
         } catch (Exception e) {
             IO.println("Kunde inte hämta priser. Statuskod: " + e.getMessage());
         }
