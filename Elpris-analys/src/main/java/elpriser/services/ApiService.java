@@ -41,7 +41,7 @@ public class ApiService {
 
     private static QuarterlyData[] tryReadFromCache(Path pathToCache) {
         if (!Files.exists(pathToCache)) {
-            return null;
+            return new QuarterlyData[0];
         }
 
         try {
@@ -49,8 +49,9 @@ public class ApiService {
             return objectMapper.readValue(hourlyRatesJson, new TypeReference<>() {});
         } catch (IOException e) {
             // Logs that an error has occurred with reading or parsing the file and returns null.
-            System.err.println("Kunde inte läsa cache-fil " + pathToCache + ": " + e.getMessage());
-            return null;
+            System.err.println("Kunde inte läsa cache-fil, försöker ta bort den... " + pathToCache + ": " + e.getMessage());
+            deleteCorruptedCacheFile(pathToCache);
+            return new QuarterlyData[0];
         }
     }
 
@@ -80,7 +81,15 @@ public class ApiService {
             Files.writeString(path, content);
             IO.println("Data sparat till lokal fil: " + path);
         } catch (IOException e) {
-            IO.println("[Varning!] Kunde inte sparat till lokal fil: " + e.getMessage());
+            IO.println("[Varning!] Kunde inte sparas till lokal fil: " + e.getMessage());
+        }
+    }
+
+    private static void deleteCorruptedCacheFile(Path pathToCache) {
+        try {
+            Files.deleteIfExists(pathToCache);
+        } catch (IOException e) {
+            System.err.println("Kunde inte ta bort trasig cache-fil " + pathToCache + ": " + e.getMessage());
         }
     }
 }
