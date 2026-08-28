@@ -55,7 +55,7 @@ public class Main {
 
     private static void loadZonePrices(String zoneToLoad) {
         try {
-            currentPrices = ApiService.getHourlyData(today, zoneToLoad);
+            currentPrices = ApiService.getQuarterlyData(today, zoneToLoad);
         } catch (Exception e) {
             IO.println("Kunde inte hämta priser. Statuskod: " + e.getMessage());
         }

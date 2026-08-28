@@ -21,7 +21,7 @@ public class ApiService {
 
     private ApiService() {}
 
-    public static QuarterlyData[] getHourlyData(LocalDate date, String zone) throws IOException, InterruptedException {
+    public static QuarterlyData[] getQuarterlyData(LocalDate date, String zone) throws IOException, InterruptedException {
         Path pathToCache = getCachePath(date, zone);
 
         QuarterlyData[] cached = tryReadFromCache(pathToCache);
@@ -41,17 +41,17 @@ public class ApiService {
 
     private static QuarterlyData[] tryReadFromCache(Path pathToCache) {
         if (!Files.exists(pathToCache)) {
-            return new QuarterlyData[0];
+            return null;
         }
 
         try {
-            String hourlyRatesJson = Files.readString(pathToCache);
-            return objectMapper.readValue(hourlyRatesJson, new TypeReference<>() {});
+            String quarterlyRatesJson = Files.readString(pathToCache);
+            return objectMapper.readValue(quarterlyRatesJson, new TypeReference<>() {});
         } catch (IOException e) {
             // Logs that an error has occurred with reading or parsing the file and returns null.
             System.err.println("Kunde inte läsa cache-fil, försöker ta bort den... " + pathToCache + ": " + e.getMessage());
             deleteCorruptedCacheFile(pathToCache);
-            return new QuarterlyData[0];
+            return null;
         }
     }
 
